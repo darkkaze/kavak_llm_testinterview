@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kavak-chatbot-deployment
+  labels:
+    app: kavak-chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kavak-chatbot
+  template:
+    metadata:
+      labels:
+        app: kavak-chatbot
+    spec:
+      containers:
+      - name: kavak-chatbot
+        image: ghcr.io/your-username/kavak-chatbot:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: kavak-chatbot-config
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          # No limits set to allow bursting

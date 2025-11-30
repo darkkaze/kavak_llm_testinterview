@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kavak Chatbot</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --chat-bg: #1e1e1e;
+            --user-msg-bg: #0056b3;
+            --bot-msg-bg: #333;
+            --text-color: #e0e0e0;
+            --input-bg: #2c2c2c;
+            --border-color: #444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 90vh;
+            background-color: var(--chat-bg);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        #header {
+            padding: 15px;
+            background-color: #000;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-msg-bg);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--bot-msg-bg);
+            color: var(--text-color);
+            border-bottom-left-radius: 2px;
+        }
+
+        #input-area {
+            padding: 15px;
+            background-color: #000;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: white;
+            outline: none;
+        }
+
+        #send-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            background-color: var(--user-msg-bg);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #send-btn:hover {
+            background-color: #004494;
+        }
+        
+        /* Markdown/Formatting styles for bot messages */
+        .bot-message ul { padding-left: 20px; margin: 5px 0; }
+        .bot-message p { margin: 5px 0; }
+        .bot-message strong { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <div id="header">Kavak Assistant</div>
+    <div id="messages">
+        <div class="message bot-message">¡Hola! Soy el asistente virtual de Kavak. ¿En qué puedo ayudarte hoy?</div>
+    </div>
+    <div id="input-area">
+        <input type="text" id="message-input" placeholder="Escribe tu mensaje..." autocomplete="off">
+        <button id="send-btn">Enviar</button>
+    </div>
+</div>
+
+<script>
+    // Generate a random Session ID
+    const sessionId = 'session-' + Math.random().toString(36).substr(2, 9);
+    console.log("Session ID:", sessionId);
+
+    const messagesDiv = document.getElementById('messages');
+    const inputField = document.getElementById('message-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function addMessage(text, isUser) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        
+        // Simple formatting for bot messages (newlines to <br>)
+        if (!isUser) {
+            // Basic markdown-like parsing could go here, for now just preserving structure
+            msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+        } else {
+            msgDiv.textContent = text;
+        }
+        
+        messagesDiv.appendChild(msgDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const text = inputField.value.trim();
+        if (!text) return;
+
+        addMessage(text, true);
+        inputField.value = '';
+        inputField.disabled = true;
+
+        try {
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: text,
+                    session_id: sessionId
+                })
+            });
+
+            const data = await response.json();
+            addMessage(data.response, false);
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage("Lo siento, hubo un error al conectar con el servidor.", false);
+        } finally {
+            inputField.disabled = false;
+            inputField.focus();
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    inputField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+    
+    inputField.focus();
+</script>
+
+</body>
+</html>

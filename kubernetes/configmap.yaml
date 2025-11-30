@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kavak-chatbot-config
+data:
+  MODEL_NAME: "gpt-4o"
+  EMBEDDING_MODEL: "text-embedding-3-small"
+  DB_NAME: "kavak_chatbot.db"
+  PORT: "8000"
+  # OPENAI_API_KEY should be a Secret in production
+  OPENAI_API_KEY: "your-api-key-here"

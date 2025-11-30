@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kavak-chatbot-pod
+  labels:
+    app: kavak-chatbot
+spec:
+  containers:
+  - name: kavak-chatbot
+    image: ghcr.io/your-username/kavak-chatbot:latest
+    ports:
+    - containerPort: 8000
+    envFrom:
+    - configMapRef:
+        name: kavak-chatbot-config
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "50m"

@@ -1,8 +1,13 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Set the working directory in the container
 WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file into the container at /app
 COPY requirements.txt /app/

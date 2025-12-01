@@ -91,17 +91,21 @@ Para calcular financiamiento sin guardar estado, implementamos el nodo `resolve_
 
 ## Screenshots
 ### RAG
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-  <img src="specs/img/sedes.png" alt="Sedes" style="width: 100%; height: auto;"/>
-  <img src="specs/img/mantenimiento.png" alt="Mantenimiento" style="width: 100%; height: auto;"/>
-  <img src="specs/img/general.png" alt="General Info" style="width: 100%; height: auto;"/>
-</div>
+<table>
+  <tr>
+    <td><img src="specs/img/sedes.png" alt="Sedes" width="100%"/></td>
+    <td><img src="specs/img/mantenimiento.png" alt="Mantenimiento" width="100%"/></td>
+    <td><img src="specs/img/general.png" alt="General Info" width="100%"/></td>
+  </tr>
+</table>
 
 ### Compra de Carro
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-  <img src="specs/img/carro1.png" alt="Carro 1" style="width: 100%; height: auto;"/>
-  <img src="specs/img/carro2.png" alt="Carro 2" style="width: 100%; height: auto;"/>
-</div>
+<table>
+  <tr>
+    <td><img src="specs/img/carro1.png" alt="Carro 1" width="100%"/></td>
+    <td><img src="specs/img/carro2.png" alt="Carro 2" width="100%"/></td>
+  </tr>
+</table>
 
 ### Infraestructura
 El despliegue se realiza con Kubernetes para aprovechar un servidor propio donde alojo mis proyectos UwU.

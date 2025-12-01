@@ -16,12 +16,14 @@ spec:
     spec:
       containers:
       - name: kavak-chatbot
-        image: ghcr.io/darkkaze/kavak_llm_testinterview:latest
+        image: ghcr.io/darkkaze/kavak_llm_testinterview:main
         ports:
         - containerPort: 8000
         envFrom:
         - configMapRef:
             name: kavak-chatbot-config
+        - secretRef:
+            name: kavak-chatbot-secret
         resources:
           requests:
             memory: "64Mi"

@@ -1,3 +1,36 @@
+# Kavak Chatbot - Prueba Técnica
+
+Este proyecto es una prueba técnica para la posición de AI Engineer en Kavak. Consiste en un chatbot inteligente capaz de responder preguntas frecuentes (RAG), buscar autos en un catálogo simulado y calcular opciones de financiamiento, todo orquestado mediante un grafo de decisiones stateless.
+
+## Instalación y Ejecución Local
+
+Para ejecutar el proyecto localmente, asegúrate de tener Python 3.11+ instalado:
+
+```bash
+# 1. Crear entorno virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# 2. Instalar dependencias
+pip install -r requirements.txt
+
+# 3. Configurar variables de entorno
+# Crea un archivo .env basado en settings.py o exporta tus variables (OPENAI_API_KEY)
+
+# 4. Ejecutar servidor
+uvicorn main:app --reload
+```
+
+## Demo Online
+
+El servicio cuenta con una interfaz de chat web disponible para pruebas en:
+👉 **[https://kavaktest.nomada.dev/](https://kavaktest.nomada.dev/)**
+
+## Integración con Twilio
+*(Pendiente de configuración)*
+
+---
+
 ## Decisiones Técnicas
 
 ### RAG: Router Semántico + Recuperación vs. Búsqueda Vectorial Simple
@@ -57,15 +90,18 @@ Para calcular financiamiento sin guardar estado, implementamos el nodo `resolve_
 ```
 
 ## Screenshots
-
 ### RAG
-![Sedes](specs/img/sedes.png)
-![Mantenimiento](specs/img/mantenimiento.png)
-![General Info](specs/img/general.png)
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+  <img src="specs/img/sedes.png" alt="Sedes" style="width: 100%; height: auto;"/>
+  <img src="specs/img/mantenimiento.png" alt="Mantenimiento" style="width: 100%; height: auto;"/>
+  <img src="specs/img/general.png" alt="General Info" style="width: 100%; height: auto;"/>
+</div>
 
 ### Compra de Carro
-![Carro 1](specs/img/carro1.png)
-![Carro 2](specs/img/carro2.png)
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+  <img src="specs/img/carro1.png" alt="Carro 1" style="width: 100%; height: auto;"/>
+  <img src="specs/img/carro2.png" alt="Carro 2" style="width: 100%; height: auto;"/>
+</div>
 
 ### Infraestructura
 El despliegue se realiza con Kubernetes para aprovechar un servidor propio donde alojo mis proyectos UwU.

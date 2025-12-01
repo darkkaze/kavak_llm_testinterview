@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: kavak-chatbot
-    image: ghcr.io/darkkaze/kavak_llm_testinterview:latest
+    image: ghcr.io/darkkaze/kavak_llm_testinterview:main
     ports:
     - containerPort: 8000
     envFrom:

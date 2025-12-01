@@ -56,6 +56,8 @@ En lugar de utilizar LangGraph como una máquina de estados persistente (donde e
 - **Robustez**: El estado se reconstruye en cada turno basándose en el historial de chat crudo.
 - **Flexibilidad**: El router evalúa la intención con todo el contexto actualizado en cada interacción.
 
+📖 **Ver detalles técnicos en:** [`specs/GRAPH_README.md`](specs/GRAPH_README.md)
+
 ### Resolución de Contexto (Financiamiento)
 Para calcular financiamiento sin guardar estado, implementamos el nodo `resolve_car_context`. Este nodo analiza el historial de la conversación con un LLM para identificar cuál fue el último auto mencionado (por el usuario o el bot) y extrae sus datos (Marca, Modelo, Precio).
 
@@ -93,6 +95,21 @@ Para calcular financiamiento sin guardar estado, implementamos el nodo `resolve_
                                 v
                              [ END ]
 ```
+
+## Base de Datos
+
+📖 **Documentación completa en:** [`specs/DB_README.md`](specs/DB_README.md)
+
+La aplicación usa **SQLite** con autocarga de datos:
+- **Catálogo de autos**: Cargado desde `specs/sample_caso_ai_engineer.csv`
+- **Documentos RAG**: Generados con embeddings de OpenAI en startup
+
+⚠️ **Nota**: La BD se auto-crea por practicidad en esta prueba técnica. En producción real, la inicialización de datos debería ser manejada por migraciones (Alembic) y scripts separados de la lógica de la aplicación.
+
+## Notas para Revisión
+
+- **Ventana de contexto**: El historial de chat está limitado a las últimas 24 horas para evitar contexto obsoleto. Esto es configurable en `utils.get_chat_history()`.
+- **Fuzzy Matching**: El catálogo usa `thefuzz` para búsquedas flexibles (ej: "Jeta" → "Jetta"). Umbral configurado en 70 puntos.
 
 ## Screenshots
 ### RAG

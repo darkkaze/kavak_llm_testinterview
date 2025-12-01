@@ -89,7 +89,7 @@ async def twilio_webhook(request: Request):
             client = Client(settings.TWILIO_SID, settings.TWILIO_TOKEN)
             
             message = client.messages.create(
-                from_=settings.TWILIO_PHONE,
+                from_=f"whatsapp:{settings.TWILIO_PHONE}",
                 body=agent_response_content,
                 to=sender_id
             )

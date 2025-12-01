@@ -15,9 +15,18 @@ from db.load_rag import load_data
 # Create tables if they don't exist
 Base.metadata.create_all(bind=engine)
 
-# Load initial data
-load_csv()
-load_data()
+# Load initial data (wrapped in try-except to not break startup)
+try:
+    load_csv()
+    print("INFO: Catalog data loaded successfully.")
+except Exception as e:
+    print(f"WARNING: Failed to load catalog data: {e}")
+
+try:
+    load_data()
+    print("INFO: RAG data loaded successfully.")
+except Exception as e:
+    print(f"WARNING: Failed to load RAG data: {e}")
 
 app = FastAPI(title="Kavak Chatbot")
 

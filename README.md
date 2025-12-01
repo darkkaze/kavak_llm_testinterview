@@ -66,3 +66,6 @@ Para calcular financiamiento sin guardar estado, implementamos el nodo `resolve_
 ### Compra de Carro
 ![Carro 1](specs/img/carro1.png)
 ![Carro 2](specs/img/carro2.png)
+
+### Infraestructura
+El despliegue se realiza con Kubernetes para aprovechar un servidor propio donde alojo mis proyectos UwU.

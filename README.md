@@ -27,7 +27,9 @@ El servicio cuenta con una interfaz de chat web disponible para pruebas en:
 👉 **[https://kavaktest.nomada.dev/](https://kavaktest.nomada.dev/)**
 
 ## Integración con Twilio
-*(Pendiente de configuración)*
+Para probar la integración con WhatsApp (Twilio Sandbox):
+1.  Envía `join start-listen` al número **+1 415 523 8886**.
+2.  O usa este link directo: [https://wa.me/14155238886?text=join%20start-listen](https://wa.me/14155238886?text=join%20start-listen)
 
 ---
 

@@ -24,6 +24,8 @@ spec:
             name: kavak-chatbot-config
         - secretRef:
             name: kavak-chatbot-secret
+        - secretRef:
+            name: kavak-twilio-secret
         resources:
           requests:
             memory: "64Mi"

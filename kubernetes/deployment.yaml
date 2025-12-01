@@ -17,6 +17,7 @@ spec:
       containers:
       - name: kavak-chatbot
         image: ghcr.io/darkkaze/kavak_llm_testinterview:main
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         envFrom:

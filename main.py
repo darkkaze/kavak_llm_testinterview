@@ -8,10 +8,16 @@ from db.connection import SessionLocal, engine, Base
 from db.models import ChatHistory
 from agents.graph import app as agent_app
 from agents.utils import format_user_prompt
-from utils import save_chat_message, get_chat_history
+from utils import save_chat_message, get_chat_history, delete_chat_history
+from db.load_catalog import load_csv
+from db.load_rag import load_data
 
 # Create tables if they don't exist
 Base.metadata.create_all(bind=engine)
+
+# Load initial data
+load_csv()
+load_data()
 
 app = FastAPI(title="Kavak Chatbot")
 
@@ -58,11 +64,27 @@ async def twilio_webhook(request: Request):
     form_data = await request.form()
     user_message = form_data.get("Body")
     sender_id = form_data.get("From") # e.g., "whatsapp:+52155..."
-    
+
     if not user_message or not sender_id:
         return {"status": "ignored", "reason": "no_message_or_sender"}
-    
+
     print(f"DEBUG: [Twilio] Received from {sender_id}: {user_message}")
+
+    # Handle /reset command
+    if user_message.strip() == "/reset":
+        delete_chat_history(sender_id)
+        response_text = "Historial borrado. ¿En qué puedo ayudarte?"
+        try:
+            from twilio.rest import Client
+            client = Client(settings.TWILIO_SID, settings.TWILIO_TOKEN)
+            client.messages.create(
+                from_=f"whatsapp:{settings.TWILIO_PHONE}",
+                body=response_text,
+                to=sender_id
+            )
+        except Exception as e:
+            print(f"ERROR: [Twilio] Failed to send reset confirmation: {e}")
+        return {"status": "ok"}
 
     # 1. Save User Message
     # We use the phone number as session_id
